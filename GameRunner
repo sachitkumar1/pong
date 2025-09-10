@@ -1,0 +1,108 @@
+
+package pong;
+
+//imports
+import java.awt.event.KeyEvent;
+import Utilities.GDV5;
+import java.awt.Graphics2D;
+
+
+
+public class GameRunner extends GDV5{
+	
+	//creates ball
+	public  Ball ball = new Ball(GDV5.getMaxWindowX()/2, GDV5.getMaxWindowY()/2, 20, 20);
+	
+	//creates left and right paddles, with the parameters determining the height and width of the paddle rectangle
+	public Paddle RightPaddle = new Paddle(GDV5.getMaxWindowX()-40, GDV5.getMaxWindowY()/2 -30, 20,100);
+	public Paddle LeftPaddle = new Paddle(20,GDV5.getMaxWindowY()/2-30, 20,100); 
+	//creates screens
+	private startingScreen start = new startingScreen();
+	private gamePlay doubleplayer = new gamePlay();
+	private Rules rules = new Rules();
+	private EndScreen end = new EndScreen();
+	private EndScreenSingle endsingle = new EndScreenSingle();
+	private SinglePlayer singleplayer = new SinglePlayer();
+	//game screen
+	private int Screen = 0;
+	
+	//main method
+	
+	public static void main(String[]args) {
+		
+		GameRunner g = new GameRunner();
+		g.start();
+		
+		}
+	
+	//resets score and lives after game is over
+	public void initScreen(int screenNumber) {
+		this.Screen = screenNumber;
+		this.ball.ScoreLeft = 0;
+		this.ball.ScoreRight = 0;
+		this.ball.Lives = 3;
+		this.ball.SingleScoreRight = 0;
+	}
+	@Override
+	public void update() { //refreshes 60 frames per second
+		//TODO Auto-generated method stub
+		
+		//sets up screens (single player and double player)
+		if (this.Screen ==1){ball.move(); doubleplayer.Controls(ball, RightPaddle, LeftPaddle);}
+		
+		if (this.Screen ==4) {ball.move(); singleplayer.SingleControls(ball,RightPaddle,LeftPaddle);}
+		
+		//two player mode
+		if (GDV5.KeysPressed[KeyEvent.VK_SPACE]&& (this.Screen != 1 && this.Screen != 2 && this.Screen != 4 )) {
+			this.initScreen(1);
+			//plays sound when button is pressed
+			start.playButtonSound();}
+		
+		//how to play
+		if (GDV5.KeysPressed[KeyEvent.VK_I] && this.Screen ==0) {
+			this.Screen = 2;
+			//plays sound when space button is pressed
+			start.playButtonSound();}
+		
+		//if score==5 for either side, game over.
+		if((ball.ScoreLeft == 5 || ball.ScoreRight == 5) && this.Screen == 1) {this.Screen=3;}
+		
+		//in single player, if lives go to 0, game is over. 
+		if(ball.Lives == 0 && this.Screen == 4) {this.Screen=5;}
+		
+		//go home
+		if (GDV5.KeysPressed[KeyEvent.VK_H]) {this.initScreen(0);}
+		
+		//single-player mode
+		if (GDV5.KeysPressed[KeyEvent.VK_Y] && (Screen != 1 && Screen !=2 && Screen != 4)) {
+			this.initScreen(4);
+			start.playButtonSound();}}
+
+	
+	
+	
+		public void draw(Graphics2D win) {
+			// TODO Auto-generated method stub
+			if (this.Screen == 0) {
+				start.SplashPage(win);
+				
+				}
+			if (this.Screen ==1){
+				doubleplayer.Gameplay(win, ball, LeftPaddle, RightPaddle);
+				}
+			if (this.Screen == 4) {
+				
+				singleplayer.playSingle(win, ball, LeftPaddle, RightPaddle);
+			}
+			if (this.Screen == 2){
+				rules.howToPlay(win);
+				}
+			if (this.Screen==3) {
+				end.gameOver(win,ball);
+			}
+			if(this.Screen == 5) {
+				endsingle.gameOverSingle(win, ball);
+			}
+			
+	}
+		}
