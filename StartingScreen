@@ -1,0 +1,82 @@
+
+package pong;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.io.File;
+import java.io.IOException;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
+import Utilities.GDV5;
+
+public class startingScreen {
+		
+	public void SplashPage(Graphics2D title) {
+		title.setFont(new Font("Arial", Font.BOLD, 150));	
+		title.setColor(Color.PINK);
+		title.drawString("PONG",GDV5.getMaxWindowX()/3, GDV5.getMaxWindowY()/2-100);
+		title.setFont(new Font("Arial",Font.PLAIN,36));
+		title.drawString("  By: Sachit Kumar",GDV5.getMaxWindowX()/3+65, GDV5.getMaxWindowY()-GDV5.getMaxWindowY()/3 - 150);
+		title.setFont(new Font("Arial",Font.PLAIN,24));
+		title.setColor(Color.WHITE);
+		title.drawString("Press I for how to play",GDV5.getMaxWindowX()/3+100, GDV5.getMaxWindowY()/2 + 100);
+		title.drawString(" Press SPACE to start 2-player Mode",GDV5.getMaxWindowX()/3+25,GDV5.getMaxWindowY()/2 + 150);
+		title.drawString(" Press Y to start single-player Mode",GDV5.getMaxWindowX()/3+40,GDV5.getMaxWindowY()/2 + 200);
+		//Sound.menuSound();
+		
+	}
+	
+	public void buttonSound() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+		File button = new File("button.wav");
+		AudioInputStream audioStream = AudioSystem.getAudioInputStream(button);
+		Clip clip = AudioSystem.getClip();
+		clip.open(audioStream);	
+		clip.start();
+	}
+
+	//method for playing button sound so that update method isn't too long. 
+	public void playButtonSound() {
+		try {
+			buttonSound();
+		} catch (UnsupportedAudioFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+		
+	}
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
