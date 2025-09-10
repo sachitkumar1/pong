@@ -1,0 +1,26 @@
+package pong;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import Utilities.GDV5;
+
+public class EndScreenSingle {
+	public void gameOverSingle(Graphics2D gameOver, Ball ball) {
+		//final page
+		gameOver.setFont(new Font("Arial", Font.PLAIN,100));
+		gameOver.setColor(Color.RED);
+		gameOver.drawString("GAME OVER",GDV5.getMaxWindowX()/4 - 15, GDV5.getMaxWindowY()/3);
+		gameOver.setFont(new Font("Arial", Font.PLAIN,50));
+		gameOver.setColor(Color.BLUE);
+		gameOver.drawString("Score: " + ball.SingleScoreRight,GDV5.getMaxWindowX()/2 - 100, GDV5.getMaxWindowY()/2 - 60);
+		gameOver.setFont(new Font("Arial", Font.PLAIN,25));
+		gameOver.setColor(Color.WHITE);
+		gameOver.drawString("   Press Space to Play Two-Player Mode", GDV5.getMaxWindowX()/4 + 70, GDV5.getMaxWindowY()/2 + 140);
+		gameOver.drawString("Press Y to Play Single Player Mode", GDV5.getMaxWindowX()/4 + 110, GDV5.getMaxWindowY()/2 + 180);
+		gameOver.drawString("      Press H for Home", GDV5.getMaxWindowX()/2 -140, GDV5.getMaxWindowY()/2 + 40);
+		
+	}
+}
+
+
