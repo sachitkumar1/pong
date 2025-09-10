@@ -1,0 +1,59 @@
+package pong;
+
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+
+import Utilities.GDV5;
+
+public class gamePlay {
+	
+	public void Controls(Ball ball, Paddle RightPaddle, Paddle LeftPaddle) {
+		//Right paddle moves using arrows
+		RightPaddle.MoveArrows();
+		//Left Paddle moves using WASD
+		LeftPaddle.MoveWASD();
+		//ball bounces back when it hits paddle
+		if((ball.intersects(RightPaddle)|| ball.intersects(LeftPaddle))) {
+			ball.collision(ball, RightPaddle);
+			
+			//ball increases speed after every hit, but not more than 10. 
+			if((ball.intersects(RightPaddle)|| ball.intersects(LeftPaddle))&& (Math.abs(ball.speedX) <= 10 && Math.abs(ball.speedY) <=10)) {
+				ball.speedX += (ball.speedX/Math.abs(ball.speedX));
+				ball.speedY += (ball.speedY/Math.abs(ball.speedY));
+			}
+			//plays ball hitting sound
+			ball.playBallSound();
+			ball.smashBall(ball, RightPaddle, LeftPaddle);
+			}
+		}
+	public void Gameplay(Graphics2D gameplay, Ball ball, Paddle RightPaddle, Paddle LeftPaddle) {
+			//Ball
+			gameplay.setColor(ball.Color());
+			gameplay.setStroke(new BasicStroke(8));
+			gameplay.fillRect((int)ball.getX(), (int)ball.getY(), (int)ball.getWidth(), (int)ball.getHeight());
+			//Left Paddle
+			gameplay.setColor(Color.BLUE);
+			gameplay.fillRect((int)LeftPaddle.getX(), (int)LeftPaddle.getY(), (int)LeftPaddle.getWidth(), (int)LeftPaddle.getHeight());
+			//Right Paddle
+			gameplay.setColor(Color.RED);
+			gameplay.fillRect((int)RightPaddle.getX(), (int)RightPaddle.getY(), (int)RightPaddle.getWidth(), (int)RightPaddle.getHeight());
+			//draw line in center
+			gameplay.setColor(Color.WHITE);
+			gameplay.drawRect(GDV5.getMaxWindowX()/2,0, 2, 2000);
+			gameplay.fillRect(GDV5.getMaxWindowX()/2,0, 2, 2000);
+			//display scores
+			gameplay.setFont(new Font("Arial", Font.PLAIN, 40));
+			gameplay.setColor(Color.WHITE);
+			gameplay.drawString("" + ball.ScoreLeft, GDV5.getMaxWindowX()/2 - 60, GDV5.getMaxWindowY()/2 - 350 );
+			gameplay.drawString("" + ball.ScoreRight, GDV5.getMaxWindowX()/2 + 30, GDV5.getMaxWindowY()/ 2 - 350 );
+			//H to go home
+			gameplay.setFont(new Font("Arial", Font.PLAIN, 20));
+			gameplay.drawString("Press H to go home",GDV5.getMaxWindowX() - 200, GDV5.getMaxWindowY()-10);
+
+		}
+	
+
+	}
+
