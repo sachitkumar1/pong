@@ -1,0 +1,178 @@
+package pong;
+
+import java.awt.Rectangle;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
+import java.awt.Color;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
+
+import Utilities.GDV5;
+
+public class Ball extends Rectangle{
+	//sets color of ball
+	
+	private Color ballcolor = Color.GREEN;
+	int ScoreRight = 0;
+	int ScoreLeft=0;
+	int Lives = 3;
+	int SingleScoreRight = 0;
+
+	//sets speed of ball
+	
+	int speedX = 5;
+	int speedY = 5;
+	
+	public void ScoreUpdate(Ball ball) {
+		if(this.x == this.width) {
+			ScoreRight++;
+			
+		}
+		if (this.x==GDV5.getMaxWindowX()-this.width){
+			ScoreLeft++;
+		}
+	}
+	
+	public Ball(int x, int y, int width, int height) {
+		super(x,y,width,height);
+	}
+	//moves the ball at speed set above
+	public void move() {
+		this.x += speedX;
+		this.y += speedY;
+		
+		//makes it so that ball changes direction when bounds of y are reached (bounces)
+		if(this.y >= GDV5.getMaxWindowY()|| this.y <= 0) {
+			speedY *= -1;
+
+		}
+		//ball resets randomly when max bounds of x are reached and score isn't 0-0. Also updates Left score and lives. 
+		else if (this.x >= GDV5.getMaxWindowX()) {
+			this.x  = (int)(Math.random()* (GDV5.getMaxWindowX()-1000)+500);
+			this.y = (int)(Math.random()* GDV5.getMaxWindowY());
+			speedX = 5;
+			speedY = 5;
+			ScoreLeft++;
+			Lives--;
+			playScoreSound();
+			
+		}
+		//ball resets randomly when min bounds of x are reached and score isn't 0-0. Also updates Right Score. 
+		//y-doesn't change direction when paddle is hit, but x does.
+		else if (this.x<=0) {
+			this.x  = (int)(Math.random()* (GDV5.getMaxWindowX()-1000)+500);
+			this.y = (int)(Math.random()* GDV5.getMaxWindowY());
+			speedX = -5;
+			speedY = 5;
+			ScoreRight++;
+			//plays score sound
+			playScoreSound();
+		
+	}
+	}
+
+	
+	//when ball collides, the direction changes and ball direction changes. Also, the score in single player mode increases. 
+	public void collision(Ball ball, Paddle RightPaddle){
+		speedX *= -1;
+		speedY *= 1;
+		
+		if (ball.intersects(RightPaddle))
+		SingleScoreRight++;
+		}
+	
+	//obtains value of ball's color
+	public Color Color() {
+		return ballcolor;
+	}
+	
+	//sound for ball hitting
+	public void ballSound() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+		// starts the game
+		
+		File ballsound = new File("ball.wav");
+		AudioInputStream audioStream = AudioSystem.getAudioInputStream(ballsound);
+		Clip clip = AudioSystem.getClip();
+		clip.open(audioStream);	
+		clip.start();
+		
+	} 
+	//plays the ball hitting sound
+	public void playBallSound() {
+		try {
+			ballSound();
+		} catch (UnsupportedAudioFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	//sound for score decreasing or lives decreasing
+	public void scoreSound() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+		File scoresound = new File("Scoreup.wav");
+		AudioInputStream audioStream = AudioSystem.getAudioInputStream(scoresound);
+		Clip clip = AudioSystem.getClip();
+		clip.open(audioStream);	
+		clip.start();
+	}
+	//plays score sound
+	public void playScoreSound() {
+		try {
+			scoreSound();
+		} catch (UnsupportedAudioFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	//SMASH BALL (if paddle and ball move in different direction, ball speed doubles
+	public void smashBall(Ball ball, Paddle RightPaddle, Paddle LeftPaddle) {
+		if(ball.intersects(RightPaddle)) {
+			if ((GDV5.KeysPressed[KeyEvent.VK_UP]||GDV5.KeysPressed[KeyEvent.VK_U])&& ball.speedY >0) {
+				ball.speedX *= 2;
+				ball.speedY *=2;
+			}
+		}
+		if(ball.intersects(RightPaddle)) {
+			if ((GDV5.KeysPressed[KeyEvent.VK_DOWN]||GDV5.KeysPressed[KeyEvent.VK_J])&& ball.speedY <0) {
+				ball.speedX *= 2;
+				ball.speedY *=2;
+			}}
+		if(ball.intersects(LeftPaddle)) {
+			if ((GDV5.KeysPressed[KeyEvent.VK_W])&& ball.speedY >0) {
+				ball.speedX *= 2;
+				ball.speedY *=2;
+			}
+			
+		}
+		if(ball.intersects(LeftPaddle)) {
+			if ((GDV5.KeysPressed[KeyEvent.VK_S])&& ball.speedY <0) {
+				ball.speedX *= 2;
+				ball.speedY *=2;
+			}
+		}
+	}
+		}
+
+		
+	
+	
