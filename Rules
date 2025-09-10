@@ -1,0 +1,29 @@
+package pong;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+
+import Utilities.GDV5;
+
+public class Rules {
+
+	public void howToPlay(Graphics2D howToPlay) {
+		//Rules
+		howToPlay.setColor(Color.white);
+		howToPlay.setFont(new Font("Arial", Font.BOLD,25));
+		howToPlay.drawString("DOUBLE PLAYER:",GDV5.getMaxWindowX()/2 - 130,GDV5.getMaxWindowY()/4 + 100);
+		howToPlay.setFont(new Font("Arial", Font.PLAIN,25));
+		howToPlay.drawString("Use up and down arrows to move right paddle",GDV5.getMaxWindowX()/2 - 250,GDV5.getMaxWindowY()/4 + 180);
+		howToPlay.drawString("Use W and S keys to move left paddle",GDV5.getMaxWindowX()/2 - 210,GDV5.getMaxWindowY()/4 + 230);
+		howToPlay.setFont(new Font("Arial", Font.BOLD,25));
+		howToPlay.drawString("SINGLE PLAYER:",GDV5.getMaxWindowX()/2 - 130,GDV5.getMaxWindowY()/4 + 310);
+		howToPlay.setFont(new Font("Arial", Font.PLAIN,25));
+		howToPlay.drawString("Use arrows or W and S keys to move paddle",GDV5.getMaxWindowX()/2 - 250,GDV5.getMaxWindowY()/4 + 370);
+		howToPlay.drawString("Press H to return home",GDV5.getMaxWindowX()/2 - 150, GDV5.getMaxWindowY()-20);
+		howToPlay.setFont(new Font("Arial", Font.PLAIN,100));
+		howToPlay.setColor(Color.PINK);
+		howToPlay.drawString(" Rules",GDV5.getMaxWindowX()/3 + 20, GDV5.getMaxWindowY()/4);
+
+	}
+}
