@@ -1,0 +1,30 @@
+package pong;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+
+import Utilities.GDV5;
+
+public class EndScreen {
+	public void gameOver(Graphics2D gameOver, Ball ball) {
+			//changes whether "red wins" or "blue wins" is displayed
+			if (ball.ScoreLeft > ball.ScoreRight) {
+				gameOver.setFont(new Font("Arial", Font.PLAIN,100));
+				gameOver.setColor(Color.RED);
+				gameOver.drawString("RED WINS",GDV5.getMaxWindowX()/4 +50, GDV5.getMaxWindowY()/3);
+			}
+			else {
+				gameOver.setFont(new Font("Arial", Font.PLAIN,100));
+				gameOver.setColor(Color.BLUE);
+				gameOver.drawString("BLUE WINS",GDV5.getMaxWindowX()/4 + 30, GDV5.getMaxWindowY()/3);
+			}
+		//options at end of game
+			gameOver.setFont(new Font("Arial", Font.PLAIN,25));
+			gameOver.setColor(Color.WHITE);
+			gameOver.drawString("   Press Space to Play Two-Player Mode", GDV5.getMaxWindowX()/4 + 70, GDV5.getMaxWindowY()/2 + 140);
+			gameOver.drawString("Press Y to Play Single Player Mode", GDV5.getMaxWindowX()/4 + 110, GDV5.getMaxWindowY()/2 + 180);
+			gameOver.drawString("      Press H for Home", GDV5.getMaxWindowX()/2 -140, GDV5.getMaxWindowY()/2 + 40);
+		
+}
+}
